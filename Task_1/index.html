@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Webpage</title>
+    <style>
+        /* General Styles */
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #333;
+            padding: 10px;
+            z-index: 10;
+            color: white;
+            text-align: center;
+        }
+
+        /* Main Layout */
+        .main-container {
+            display: flex;
+            margin-top: 50px; /* Space for navbar */
+            height: 100vh;
+        }
+
+        /* Left Menu */
+        .left-menu {
+            background-color: #f4f4f4;
+            width: 250px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .left-menu.collapsed {
+            width: 0;
+        }
+
+        .left-menu button {
+            margin-bottom: 10px;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            background-color: #eaeaea;
+        }
+
+        /* Right Panel */
+        .right-panel {
+            width: 300px;
+            background-color: #ddd;
+            padding: 20px;
+        }
+
+        /* Footer */
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">Fixed Navbar</div>
+
+    <div class="main-container">
+        <div class="left-menu">
+            <button onclick="toggleMenu()">Toggle Menu</button>
+            <p>Menu Item 1</p>
+            <p>Menu Item 2</p>
+            <p>Menu Item 3</p>
+        </div>
+        <div class="main-content">
+            <h1>Main Content Area</h1>
+            <p>This is where the main content goes.</p>
+        </div>
+        <div class="right-panel">
+            <h3>Right Side Panel</h3>
+            <p>This is the right panel.</p>
+        </div>
+    </div>
+
+    <div class="footer">Footer</div>
+
+    <script>
+        function toggleMenu() {
+            document.querySelector('.left-menu').classList.toggle('collapsed');
+        }
+    </script>
+</body>
+</html>
