@@ -1,0 +1,116 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat</title>
+    <link rel="stylesheet" href="{% static 'styles/chat.css' %}">
+    <style>
+        /* Styles for the collapsible menu */
+        .menu-container {
+            width: 250px;
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            background-color: #f4f4f4;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+            overflow-y: auto;
+        }
+        .menu-header {
+            padding: 15px;
+            background-color: #3f51b5;
+            color: white;
+            font-size: 18px;
+            text-align: center;
+            cursor: pointer;
+        }
+        .user-list {
+            display: none; /* Initially hidden */
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .user-list li {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        .user-list li:hover {
+            background-color: #f0f0f0;
+            cursor: pointer;
+        }
+
+        /* Style for chat container */
+        #chat-window {
+            border: 1px solid #ddd;
+            padding: 10px;
+            height: 300px;
+            overflow-y: scroll;
+        }
+
+        .chat-container {
+            display: flex;
+        }
+
+        .menu-container {
+            flex: 0 0 250px;
+        }
+
+        .chat-section {
+            flex: 1;
+            margin-left: 260px;
+            padding: 20px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 50px;
+        }
+    </style>
+    <script>
+        // JavaScript to toggle the menu visibility
+        function toggleMenu() {
+            const userList = document.querySelector('.user-list');
+            userList.style.display = userList.style.display === 'block' ? 'none' : 'block';
+        }
+    </script>
+</head>
+<body>
+    <div class="chat-container">
+        <!-- Collapsible Left Menu -->
+        <div class="menu-container">
+            <div class="menu-header" onclick="toggleMenu()">Users</div>
+            <ul class="user-list">
+                {% for user in users %}
+                    {% if user != request.user %}
+                        <li>
+                            <a href="{% url 'chat_with_user' user.username %}">{{ user.username }}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Chat Section -->
+        <div class="chat-section">
+            <h1>Welcome to the Chat App</h1>
+            {% if selected_user %}
+                <h2>Chat with {{ selected_user.username }}</h2>
+                <div id="chat-window">
+                    {% for message in messages %}
+                        <p><strong>{{ message.sender.username }}:</strong> {{ message.content }}</p>
+                    {% endfor %}
+                </div>
+                <form method="post" action="{% url 'send_message' selected_user.username %}">
+                    {% csrf_token %}
+                    <textarea name="message" placeholder="Type your message here..."></textarea>
+                    <button type="submit">Send</button>
+                </form>
+            {% else %}
+                <p>Select a user from the menu to start chatting.</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
